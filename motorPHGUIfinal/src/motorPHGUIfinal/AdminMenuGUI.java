@@ -6,134 +6,177 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.table.DefaultTableModel;
+import java.util.Scanner;
 
+import javax.swing.table.DefaultTableModel;
 
 public class AdminMenuGUI extends JFrame implements ActionListener {
 
-    private static final long serialVersionUID = 1L;
-    private String employeeId;
-    private JLabel welcomeLabel;
+	private static final long serialVersionUID = 1L;
+	private static final int HEADER_PANEL_WIDTH = 800;
+	private static final int HEADER_PANEL_HEIGHT = 100;
+	private static final Font WELCOME_LABEL_FONT = new Font("Arial", Font.BOLD, 24);
+	private static final Font TITLE_LABEL_FONT = new Font("Arial", Font.BOLD, 36);
+	private static final Color HEADER_PANEL_COLOR = Color.BLUE;
+	private static final Color CONTENT_PANEL_COLOR = Color.WHITE;
+	private static final int MENU_PANEL_ROWS = 6;
+	private static final int MENU_PANEL_COLUMNS = 1;
+	private static final int MENU_PANEL_HORIZONTAL_GAP = 10;
+	private static final int MENU_PANEL_VERTICAL_GAP = 10;
+	private static final int EMPTY_PANEL_WIDTH = 100;
+	private static final int EMPTY_PANEL_HEIGHT = 100;
 
-    public AdminMenuGUI(String employeeId) {
-        this.employeeId = employeeId;
-        setTitle("Admin Menu");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new BorderLayout());
+	private String employeeId;
+	private JLabel welcomeLabel;
 
-        JPanel headerPanel = new JPanel();
-        headerPanel.setBackground(Color.BLUE);
-        headerPanel.setPreferredSize(new Dimension(800, 100));
+	public AdminMenuGUI(String employeeId) {
+	    this.employeeId = employeeId;
+	    setTitle("Admin Menu");
+	    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    getContentPane().setLayout(new BorderLayout());
 
-        JPanel welcomePanel = new JPanel();
-        welcomePanel.setBackground(Color.WHITE);
-        welcomeLabel = new JLabel("Welcome, " + GetData.getFirstName(employeeId) + " " +
-                GetData.getLastName(employeeId));
-        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
-        welcomePanel.add(welcomeLabel);
+	    JPanel headerPanel = createHeaderPanel();
+	    JPanel contentPanel = createContentPanel();
 
-        JLabel titleLabel = new JLabel("MotorPH Employee App Admin");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 36));
-        titleLabel.setForeground(Color.WHITE);
-        headerPanel.add(titleLabel);
+	    getContentPane().add(headerPanel, BorderLayout.NORTH);
+	    getContentPane().add(contentPanel, BorderLayout.CENTER);
 
-        JPanel contentPanel = new JPanel();
-        contentPanel.setBackground(Color.WHITE);
-        contentPanel.setLayout(new BorderLayout());
+	    pack();
+	    setLocationRelativeTo(null);
+	    setVisible(true);
+	}
 
-        JPanel menuPanel = new JPanel();
-        menuPanel.setLayout(new GridLayout(6, 1, 10, 10));
-        menuPanel.setBackground(Color.WHITE);
+	private JPanel createHeaderPanel() {
+	    JPanel headerPanel = new JPanel();
+	    headerPanel.setBackground(HEADER_PANEL_COLOR);
+	    headerPanel.setPreferredSize(new Dimension(HEADER_PANEL_WIDTH, HEADER_PANEL_HEIGHT));
 
-        JButton viewEmployeeRecordsButton = new JButton("Employee Records");
-        viewEmployeeRecordsButton.addActionListener(this);
-        menuPanel.add(viewEmployeeRecordsButton);
+	    JLabel titleLabel = new JLabel("MotorPH Employee App Admin");
+	    titleLabel.setFont(TITLE_LABEL_FONT);
+	    titleLabel.setForeground(Color.WHITE);
+	    headerPanel.add(titleLabel);
 
-        JButton addUserButton = new JButton("Add User");
-        addUserButton.addActionListener(this);
-        menuPanel.add(addUserButton);
+	    return headerPanel;
+	}
 
-        JButton updateUserButton = new JButton("Update User Information");
-        updateUserButton.addActionListener(this);
-        menuPanel.add(updateUserButton);
+	private JPanel createContentPanel() {
+	    JPanel contentPanel = new JPanel();
+	    contentPanel.setBackground(CONTENT_PANEL_COLOR);
+	    contentPanel.setLayout(new BorderLayout());
 
-        JButton deleteUserButton = new JButton("Delete User");
-        deleteUserButton.addActionListener(this);
-        menuPanel.add(deleteUserButton);
+	    JPanel welcomePanel = createWelcomePanel();
 
-        JButton leaveApplicationsButton = new JButton("Leave Applications");
-        leaveApplicationsButton.addActionListener(this);
-        menuPanel.add(leaveApplicationsButton);
+	    JPanel menuPanel = createMenuPanel();
+	    JPanel emptyPanel = createEmptyPanel();
 
-        JButton logoutButton = new JButton("Logout");
-        logoutButton.addActionListener(this);
-        menuPanel.add(logoutButton);
+	    contentPanel.add(menuPanel, BorderLayout.WEST);
+	    contentPanel.add(emptyPanel, BorderLayout.CENTER);
 
-        contentPanel.add(menuPanel, BorderLayout.WEST);
+	    JPanel mainPanel = new JPanel();
+	    mainPanel.setLayout(new BorderLayout());
+	    mainPanel.add(welcomePanel, BorderLayout.CENTER);
+	    mainPanel.add(contentPanel, BorderLayout.SOUTH);
 
-        JPanel emptyPanel = new JPanel(); // Add an empty panel to create space between the menu and content
-        emptyPanel.setBackground(Color.WHITE);
-        contentPanel.add(emptyPanel, BorderLayout.CENTER);
+	    return mainPanel;
+	}
 
-        getContentPane().add(headerPanel, BorderLayout.NORTH);
-        getContentPane().add(welcomePanel, BorderLayout.CENTER);
-        getContentPane().add(contentPanel, BorderLayout.SOUTH);
+	private JPanel createWelcomePanel() {
+	    JPanel welcomePanel = new JPanel();
+	    welcomePanel.setBackground(CONTENT_PANEL_COLOR);
 
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
-    }
+	    String firstName = GetData.getFirstName(employeeId);
+	    String lastName = GetData.getLastName(employeeId);
+	    String welcomeMessage = "Welcome, " + firstName + " " + lastName;
 
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        String buttonText = ((JButton) e.getSource()).getText();
+	    welcomeLabel = new JLabel(welcomeMessage);
+	    welcomeLabel.setFont(WELCOME_LABEL_FONT);
 
-        switch (buttonText) {
-            case "Employee Records":
-                showEmployeeRecords();
-                break;
-            case "Add User":
-                showNotImplementedMessage();
-                break;
-            case "Update User Information":
-                showNotImplementedMessage();
-                break;
-            case "Delete User":
-                showNotImplementedMessage();
-                break;
-            case "Leave Applications":
-                showNotImplementedMessage();
-                break;
-            case "Logout":
-                confirmLogout();
-                break;
-        }
-    }
+	    welcomePanel.add(welcomeLabel);
 
-    private void showEmployeeRecords() {
-        EmployeeRecordsPanel recordsPanel = new EmployeeRecordsPanel();
-        recordsPanel.displayEmployeeRecords();
-    }
+	    return welcomePanel;
+	}
 
-    private void showNotImplementedMessage() {
-        JOptionPane.showMessageDialog(null, "This feature is not implemented yet.", "Not Implemented", JOptionPane.INFORMATION_MESSAGE);
-    }
+	private JPanel createMenuPanel() {
+	    JPanel menuPanel = new JPanel();
+	    menuPanel.setLayout(new GridLayout(MENU_PANEL_ROWS, MENU_PANEL_COLUMNS,
+	            MENU_PANEL_HORIZONTAL_GAP, MENU_PANEL_VERTICAL_GAP));
+	    menuPanel.setBackground(CONTENT_PANEL_COLOR);
 
-    private void confirmLogout() {
-        int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to log out?", "Confirm Logout", JOptionPane.YES_NO_OPTION);
-        if (confirm == JOptionPane.YES_OPTION) {
-            // Close the current window and go back to the login screen
-            dispose();
-            MotorPHAppGUI loginScreen = new MotorPHAppGUI();
-            loginScreen.setVisible(true);
-        }
-    }
-}
+	    JButton viewEmployeeRecordsButton = createMenuButton("Employee Records");
+	    JButton userManagementButton = createMenuButton("User Management");
+	    JButton leaveApplicationsButton = createMenuButton("Leave Applications");
+	    JButton logoutButton = createMenuButton("Logout");
 
+	    menuPanel.add(viewEmployeeRecordsButton);
+	    menuPanel.add(userManagementButton);
+	    menuPanel.add(leaveApplicationsButton);
+	    menuPanel.add(logoutButton);
+
+	    return menuPanel;
+	}
+
+	private JButton createMenuButton(String buttonText) {
+	    JButton button = new JButton(buttonText);
+	    button.addActionListener(this);
+	    return button;
+	}
+
+	private JPanel createEmptyPanel() {
+	    JPanel emptyPanel = new JPanel();
+	    emptyPanel.setBackground(CONTENT_PANEL_COLOR);
+	    emptyPanel.setPreferredSize(new Dimension(EMPTY_PANEL_WIDTH, EMPTY_PANEL_HEIGHT));
+	    return emptyPanel;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+	    String buttonText = ((JButton) e.getSource()).getText();
+
+	    switch (buttonText) {
+	        case "Employee Records":
+	            showEmployeeRecords();
+	            break;
+	        case "User Management":
+	            showUserManagement();
+	            break;
+
+	        case "Leave Applications":
+	            showNotImplementedMessage();
+	            break;
+	        case "Logout":
+	            confirmLogout();
+	            break;
+	    }
+	}
+
+	private void showEmployeeRecords() {
+	    EmployeeRecordsPanel recordsPanel = new EmployeeRecordsPanel();
+	    recordsPanel.displayEmployeeRecords();
+	}
+
+	private void showUserManagement() {
+	    UserManagementGUI userManagementGUI = new UserManagementGUI();
+	    userManagementGUI.setVisible(true);
+	}
+
+	private void showNotImplementedMessage() {
+	    JOptionPane.showMessageDialog(null, "This feature is not implemented yet.", "Not Implemented",
+	            JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	private void confirmLogout() {
+	    int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to log out?", "Confirm Logout",
+	            JOptionPane.YES_NO_OPTION);
+	    if (confirm == JOptionPane.YES_OPTION) {
+	        dispose();
+	        MotorPHAppGUI loginScreen = new MotorPHAppGUI();
+	        loginScreen.setVisible(true);
+	    }
+	}
 
 class EmployeeRecordsPanel {
-    private JTable table;
-    private JButton viewDetailsButton;
+private JTable table;
+private JButton viewDetailsButton;
 
     public void displayEmployeeRecords() {
         String[] columnNames = {"Employee Number", "Last Name", "First Name", "SSS No.", "Philhealth No.", "TIN", "Pagibig No."};
@@ -158,7 +201,7 @@ class EmployeeRecordsPanel {
 
         JPanel buttonPanel = new JPanel();
         viewDetailsButton = new JButton("View Details");
-        viewDetailsButton.setEnabled(false); // Initially disabled until a row is selected
+        viewDetailsButton.setEnabled(false);
         viewDetailsButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = table.getSelectedRow();
@@ -174,19 +217,11 @@ class EmployeeRecordsPanel {
 
         frame.getContentPane().add(buttonPanel, BorderLayout.SOUTH);
 
-        // Adjust the size of the frame to fit the content
         frame.pack();
-
-        // Set a minimum size for the frame
         frame.setMinimumSize(new Dimension(800, 400));
-
-        // Center the frame on the screen
         frame.setLocationRelativeTo(null);
-
-        // Make the frame visible
         frame.setVisible(true);
     }
-
 
     private void showEmployeeDetails(String[] employeeDetails) {
         String[] columnNames = {"Employee #", "Last Name", "First Name", "Birthday", "Address", "Phone Number", "SSS #", "Philhealth #", "TIN #", "Pag-ibig #", "Status", "Position", "Immediate Supervisor", "Basic Salary", "Rice Subsidy", "Phone Allowance", "Clothing Allowance", "Gross Semi-monthly Rate", "Hourly Rate"};
@@ -239,3 +274,8 @@ class EmployeeRecordsPanel {
         detailsFrame.setVisible(true);
     }
 }
+}
+
+
+
+
