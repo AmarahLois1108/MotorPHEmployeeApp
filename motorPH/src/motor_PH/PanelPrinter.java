@@ -23,7 +23,7 @@ public class PanelPrinter implements Printable {
         pageFormat.setOrientation(PageFormat.LANDSCAPE);
 
         PrintRequestAttributeSet attributes = new HashPrintRequestAttributeSet();
-        float margin = 10; // Margin in points
+        float margin = 10;
         attributes.add(new MediaPrintableArea(margin, margin, (float) pageFormat.getWidth() - 2 * margin, (float) pageFormat.getHeight() - 2 * margin, MediaPrintableArea.MM));
 
         printerJob.setPrintable(this, pageFormat);

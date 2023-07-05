@@ -227,12 +227,12 @@ public class MainMenu_Frame extends JFrame {
 		btn_Dashboard.setBounds(0, 98, 216, 35);
 		panel.add(btn_Dashboard);
 
-		JLabel lblNewLabel_1_5 = new JLabel("Dashboard");
+		JLabel DashboardLabel = new JLabel("Dashboard");
 
-		lblNewLabel_1_5.setForeground(Color.WHITE);
-		lblNewLabel_1_5.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNewLabel_1_5.setBounds(20, 0, 216, 32);
-		btn_Dashboard.add(lblNewLabel_1_5);
+		DashboardLabel.setForeground(Color.WHITE);
+		DashboardLabel.setFont(new Font("Tahoma", Font.BOLD, 12));
+		DashboardLabel.setBounds(20, 0, 216, 32);
+		btn_Dashboard.add(DashboardLabel);
 
 		JPanel view_InfoPanel = new JPanel();
 		view_InfoPanel.setBackground(new Color(255, 255, 255));

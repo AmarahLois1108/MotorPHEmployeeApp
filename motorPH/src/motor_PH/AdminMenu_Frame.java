@@ -51,7 +51,7 @@ public class AdminMenu_Frame extends JFrame {
         panel.setLayout(null);
 
         JLabel icon_User = new JLabel("");
-        icon_User.setIcon(new ImageIcon("C:\\Users\\admin\\Downloads\\eclipse-workspace 1\\motorPH\\user.png"));
+        icon_User.setIcon(new ImageIcon("user.png"));
         icon_User.setBounds(10, 11, 61, 49);
         panel.add(icon_User);
 

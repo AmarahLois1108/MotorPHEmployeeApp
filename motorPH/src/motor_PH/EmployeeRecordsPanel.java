@@ -104,8 +104,7 @@ public class EmployeeRecordsPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int selectedRow = table.getSelectedRow();
                 if (selectedRow != -1) {
-                    String employeeId = (String) table.getValueAt(selectedRow, 0); // Assuming employee ID is in the first column of the table
-
+                    String employeeId = (String) table.getValueAt(selectedRow, 0); 
                     // Remove the selected row from the table
                     model.removeRow(selectedRow);
 
@@ -179,7 +178,7 @@ public class EmployeeRecordsPanel extends JPanel {
             String line;
             while ((line = reader.readLine()) != null) {
                 String[] details = line.split("\t");
-                String existingEmployeeId = details[0]; // Assuming employee ID is in the first column
+                String existingEmployeeId = details[0];
 
                 if (!existingEmployeeId.equals(employeeId)) {
                     // Add the line to the list if it's not the one to be deleted
@@ -235,8 +234,6 @@ public class EmployeeRecordsPanel extends JPanel {
                 String password = passwordField.getText();
                 String userType = userTypeField.getText();
 
-                // Validate the input if needed
-
                 // Update the login.txt CSV file with the new employee details
                 UpdateEmployeeDetailsWindow.updateLoginFile(employeeId, password, userType);
                 UpdateEmployeeDetailsWindow.updateEmployeeDataFile(employeeId);
@@ -252,21 +249,5 @@ public class EmployeeRecordsPanel extends JPanel {
         // Display the dialog
         dialog.setVisible(true);
     }
-
-    /**public static void updateEmployeeDataFile(String employeeId) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("Employee_Data.tsv", true))) {
-            // Append the new employee ID to the TSV file with other details blank
-            writer.write(employeeId + "\t\t\t\t\t\t"); // Assuming there are 7 tab-separated columns in the file
-            writer.newLine();
-
-            JOptionPane.showMessageDialog(null, "Employee details updated successfully.",
-                    "Success", JOptionPane.INFORMATION_MESSAGE);
-        } catch (IOException ex) {
-            JOptionPane.showMessageDialog(null, "An error occurred while updating employee details.",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    }**/
-
-   
 
 }

@@ -58,7 +58,7 @@ public class Calculations {
 	        while ((line = reader.readLine()) != null) {
 	            String[] parts = line.split(",");
 	            if (parts.length < 7) {
-	                // handle the error here, such as by skipping the line or logging a message
+	                // handle the error, such as by skipping the line or logging a message
 	                continue;
 	            }
 	            if (parts[0].equals(employeeId)) {

@@ -170,7 +170,7 @@ import java.util.Map;
 			            return;
 			        }
 
-			        // Perform leave filing logic here
+			        // Perform leave filing logic
 			        LeaveManager.applyLeave(employeeId, leaveType, startDate, endDate);
 
 			        // Update the table with the new leave status

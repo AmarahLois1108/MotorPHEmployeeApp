@@ -13,6 +13,7 @@ public class LeaveManager {
 	
 	private static final String STATUS_FILE_PATH = "Leave_Status.csv";
 	
+	// Apply leave for the specified employee, leave type, start date, and end date
 	public static void applyLeave(String employeeId, String leaveType, String startDate, String endDate) {
 	    int days = calculateLeaveDays(startDate, endDate);
 	    int availableCredits = LeaveCreditManager.getAvailableLeaveCredits(employeeId, leaveType);
@@ -21,7 +22,6 @@ public class LeaveManager {
 	        String dateFiled = getCurrentDate();
 
 	        // Write leave status to leave_status.csv file
-	        
 	        try (FileWriter writer = new FileWriter(STATUS_FILE_PATH, true)) {
 	            writer.append(employeeId).append(",")
 	                    .append(dateFiled).append(",")
@@ -38,6 +38,7 @@ public class LeaveManager {
 	}
 
 
+    // Calculate the number of leave days between the start date and end date
     static int calculateLeaveDays(String startDate, String endDate) {
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yyyy");
@@ -57,19 +58,28 @@ public class LeaveManager {
         }
     }
 
+    // Get the current date in the format "MM-dd-yyy"
     static String getCurrentDate() {
         Date currentDate = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("M/d/yyyy");
         return format.format(currentDate);
     }
+    
+    // Get the leave status for the specified employee and leave type
     public static String getLeaveStatus(String employeeId, String leaveType) {
-        
+        // Implementation for getting leave status goes here
         return null;
     }
 
+    // Update the leave status for the specified employee, leave details, and status
     public static void updateLeaveStatus(String employeeId, String dateFiled, String leaveType, String startDate, String endDate, String status) {
         try (FileWriter writer = new FileWriter(STATUS_FILE_PATH, true)) {
-            writer.append(employeeId).append(",").append(dateFiled).append(",").append(leaveType).append(",").append(startDate).append(",").append(endDate).append(",").append(status).append("\n");
+            writer.append(employeeId).append(",")
+                    .append(dateFiled).append(",")
+                    .append(leaveType).append(",")
+                    .append(startDate).append(",")
+                    .append(endDate).append(",")
+                    .append(status).append("\n");
         } catch (IOException e) {
             e.printStackTrace();
         }

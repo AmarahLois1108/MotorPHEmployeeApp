@@ -15,11 +15,13 @@ public class AdminViewPayslipFrame extends JFrame {
     }
 
     public void setFrameDesign(String employeeId, int weekNumber) {
+        // Set up the frame properties
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(500, 552);
         setLocationRelativeTo(null);
         getContentPane().setLayout(null);
 
+        // Create the info panel to display payslip details
         JPanel infoPanel = new JPanel();
         infoPanel.setPreferredSize(new Dimension(460, 650));
         infoPanel.setBackground(new Color(255, 255, 255));
@@ -27,6 +29,7 @@ public class AdminViewPayslipFrame extends JFrame {
         infoPanel.setLayout(null);
         getContentPane().add(infoPanel);
 
+        // Set up the table to display payslip details
         String[] columns = { "", "" };
         DefaultTableModel tableModel = new DefaultTableModel(columns, 0);
         JTable table = new JTable(tableModel);
@@ -45,11 +48,13 @@ public class AdminViewPayslipFrame extends JFrame {
         table.setAutoCreateColumnsFromModel(false);
         infoPanel.add(table);
 
+        // Create and display the payslip details in the table
         PayslipTablePanel payslipTablePanel = new PayslipTablePanel(employeeId);
         payslipTablePanel.displayPayslipDetails(weekNumber);
         payslipTablePanel.setBounds(89, 60, 460, 650);
         infoPanel.add(payslipTablePanel);
 
+        // Set up the table column renderer
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         TableColumnModel columnModel = table.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(120);
@@ -58,6 +63,7 @@ public class AdminViewPayslipFrame extends JFrame {
             columnModel.getColumn(columnIndex).setCellRenderer(renderer);
         }
 
+        // Add the "Employee Payslip" label
         JLabel viewInfoLabel = new JLabel("Employee Payslip");
         viewInfoLabel.setForeground(new Color(0, 0, 128));
         viewInfoLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -65,7 +71,7 @@ public class AdminViewPayslipFrame extends JFrame {
         viewInfoLabel.setBounds(25, 10, 450, 40);
         infoPanel.add(viewInfoLabel);
 
+        // Make the frame visible
         setVisible(true);
     }
 }
-
